@@ -97,13 +97,14 @@ export function createApp(config: ServerConfig) {
     });
   });
 
-  app.get("/favicon.ico", async (c) => {
-    try {
-      const file = await readFile("./public/favicon.ico");
-      return c.body(file, 200, { "Content-Type": "image/x-icon" });
-    } catch {
-      return c.notFound();
-    }
+  app.get("/favicon.ico", (c) => {
+    const svg =
+      '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><rect width="32" height="32" rx="7" fill="#6c5ce7"/><text x="16" y="22" font-family="Arial, sans-serif" font-size="20" font-weight="700" fill="#ffffff" text-anchor="middle">T</text></svg>';
+    return c.body(svg, 200, {
+      "Content-Type": "image/svg+xml",
+      "Cache-Control": "public, max-age=86400",
+      "Content-Security-Policy": "default-src 'none'",
+    });
   });
 
   app.get("/privacy-policy", async (c) => {
